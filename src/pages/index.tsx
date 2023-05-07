@@ -1,6 +1,10 @@
 import { Inter } from 'next/font/google'
 // import React, { useState, useEffect } from 'react'
 import { useLondon } from '@/lib/hook';
+import Loader from '@/components/Loader';
+import ErrorMessage from '@/components/ErrorMessage';
+import Forecast from '@/components/Forecast';
+
 
 import useSWR from 'swr';
 
@@ -10,11 +14,6 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
 
 const {data, isLoading, isError } = useLondon()
-
-// const [londonWeather, setLondonWeather] = useState(null)
-function Loader() {
-  return <p>Loading...</p>
-}
 
 console.log(data);
   return (
@@ -26,7 +25,7 @@ console.log(data);
         <input type="text" className='bg-white rounded-full h-12 px-4 focus-visible:ring-0 ring-0'/>
       </div>
       <div>
-        {!isLoading ? <Loader /> : 'something'}
+        {isLoading ? <Loader /> : isError ? <ErrorMessage /> : <Forecast data={data}/>}
       </div>
     </main>
   )
