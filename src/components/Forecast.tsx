@@ -50,14 +50,19 @@
 // C = (°F - 32) × 5/9
 
 const Forecast = ({data}) => {
+
+    function convertToCelc(temp: number):number {
+        return Math.floor((temp - 32) * (5/9))
+    }
+
     return (
-        <div className="text-white font-thin">
+        <div className="text-slate-800 bg-white rounded-lg p-4 font-thin">
             <h2>Weather for "We will come back to this later"</h2>
             <h3>Synopsis: {data.Headline.Text}</h3>
             <div className="flex">
                 <div>
-                    <p>From: {data.DailyForecasts[0].Temperature.Minimum.Value}</p>
-                    <p>To: {data.DailyForecasts[0].Temperature.Maximum.Value}</p>
+                    <p>From: {convertToCelc(data.DailyForecasts[0].Temperature.Minimum.Value)} &#8451;</p>
+                    <p>To: {convertToCelc(data.DailyForecasts[0].Temperature.Maximum.Value)} &#8451;</p>
                 </div>
                 <div></div>
             </div>

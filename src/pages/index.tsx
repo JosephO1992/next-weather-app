@@ -4,6 +4,7 @@ import { useLondon } from '@/lib/hook';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
 import Forecast from '@/components/Forecast';
+import { dummyData } from '../../dummyData';
 
 
 import useSWR from 'swr';
@@ -13,7 +14,11 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-const {data, isLoading, isError } = useLondon()
+// const {data, isLoading, isError } = useLondon()
+
+const data = dummyData
+const isError = false
+const isLoading = false
 
 console.log(data);
   return (
