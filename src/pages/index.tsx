@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google'
 // import React, { useState, useEffect } from 'react'
-import { useEffect, useState } from 'react';
+import { useDeferredValue, useEffect, useState } from 'react';
 import { useLocationSearch } from '@/lib/hook';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
@@ -16,15 +16,28 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-const [location, setLocation] = useState('London');
+const [location, setLocation] = useState('');
+const deferredLocation = useDeferredValue(location)
 const [forecastData, setForecastData] = useState(null)
 const [isLoading, setIsLoading] = useState(false)
 const [isError, setIsError] = useState(false)
 
 async function getLocation() {
-  const locationArray = await fetch(`${process.env.NEXT_PUBLIC_API_URI_LOCATIONS}cities/search?apikey=${process.env.NEXT_PUBLIC_API_KEY}&q=${location}`, {
+  let locationToSearch = location;
+  setIsError(false)
+
+  if(!location) {
+    locationToSearch = 'London'
+  }
+  const locationArray = await fetch(`${process.env.NEXT_PUBLIC_API_URI_LOCATIONS}cities/search?apikey=${process.env.NEXT_PUBLIC_API_KEY}&q=${locationToSearch}`, {
     'method': 'GET',
   }).then(response => response.json())
+
+  if(!locationArray.length) {
+    setIsLoading(false)
+    setIsError('There were no results returned from your query, try something else')
+    return
+  }
 
   getForecastData(locationArray[0].Key)
 }
@@ -42,7 +55,7 @@ useEffect(() => {
   setIsLoading(true)
 
   getLocation()
-}, [])
+}, [deferredLocation])
 
 
 
@@ -56,11 +69,11 @@ useEffect(() => {
     >
       <div className='w-1/3 flex flex-col justify-center mb-8'>
         <h1 className='text-3xl text-white font-bold uppercase text-center h-20 mb-8'>Weather.app</h1>
-        <input type="text" className='bg-white rounded-full h-12 px-4 focus-visible:ring-0 ring-0'/>
+        <input type="text" className='bg-white rounded-full h-12 px-4 focus-visible:ring-0 ring-0' value={location} onChange={e => setLocation(e.target.value)}/>
       </div>
       <div>
         {isLoading ? <Loader /> 
-          : isError ? <ErrorMessage /> 
+          : isError ? <ErrorMessage message={isError}/> 
           : forecastData ? <Forecast data={forecastData}/> 
           : 'something'}
        
