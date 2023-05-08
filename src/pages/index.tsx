@@ -55,7 +55,7 @@ async function getLocation() {
 }
 
 async function getForecastData(locationKey:number) {
-  const data =  await fetch(`${process.env.NEXT_PUBLIC_API_URI_FORECAST}daily/1day/${locationKey}?apikey=${process.env.NEXT_PUBLIC_API_KEY}`).then(response => response.json());
+  const data =  await fetch(`${process.env.NEXT_PUBLIC_API_URI_FORECAST}daily/${forecastQuantity}/${locationKey}?apikey=${process.env.NEXT_PUBLIC_API_KEY}`).then(response => response.json());
   
 
   setForecastData(data)
@@ -67,13 +67,8 @@ useEffect(() => {
   setIsLoading(true)
 
   getLocation()
-}, [deferredLocation])
+}, [deferredLocation, forecastQuantity])
 
-
-
-// const data = dummyData
-// const isError = false
-// const isLoading = false
 
   return (
     <main
@@ -81,14 +76,15 @@ useEffect(() => {
     >
       <div className='w-1/3 flex flex-col justify-center mb-8'>
         <h1 className='text-3xl text-white font-bold uppercase text-center h-20 mb-8'>Weather.app</h1>
-        <input type="text" className='bg-white rounded-full h-12 px-4 focus-visible:ring-0 ring-0' value={location} onChange={e => setLocation(e.target.value)}/>
+        <input type="text" className='bg-white rounded-lg h-12 px-4 focus-visible:ring-0 ring-0' value={location} onChange={e => setLocation(e.target.value)}/>
       </div>
       <div className='mb-8'>
       <button onClick={() => setForecastQuantity('1day')} className={`w-32 h-16 bg-white rounded-l-lg border-r-2 border-slate-800 ${forecastQuantity === "1day" ? "bg-slate-800 text-white" : ""}`}>Daily Forecast</button>
       <button onClick={() => setForecastQuantity('5day')} className={`w-32 h-16 bg-white rounded-r-lg ${forecastQuantity === "5day" ? "bg-slate-800 text-white" : ""}`}>5 Day Forecast</button>
       </div>
       <Suspense fallback={<h2>Loading...</h2>}>
-        {isError ? <ErrorMessage message={errorMessage}/> : forecastData ? <Forecast data={forecastData} location={deferredLocation}/> : 'something'}
+        {isError ? <ErrorMessage message={errorMessage}/> 
+        : forecastData ? <Forecast data={forecastData} location={deferredLocation}/> : 'something'}
       </Suspense>
     </main>
   )
