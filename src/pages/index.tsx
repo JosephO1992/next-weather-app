@@ -1,14 +1,9 @@
 import { Inter } from 'next/font/google'
-// import React, { useState, useEffect } from 'react'
 import { useDeferredValue, useEffect, useState, Suspense } from 'react';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
 import Forecast from '@/components/Forecast';
 import { dummyData } from '../../dummyData';
-import { fetcher } from '@/lib/fetcher';
-
-
-import useSWR from 'swr';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,6 +16,7 @@ const [forecastData, setForecastData] = useState(null)
 const [isLoading, setIsLoading] = useState(false)
 const [isError, setIsError] = useState(false)
 const [errorMessage, setErrorMessage] = useState('')
+const [forecastQuantity, setForecastQuantity] = useState('1day')
 
 async function getLocation() {
   let locationToSearch = location;
@@ -87,13 +83,10 @@ useEffect(() => {
         <h1 className='text-3xl text-white font-bold uppercase text-center h-20 mb-8'>Weather.app</h1>
         <input type="text" className='bg-white rounded-full h-12 px-4 focus-visible:ring-0 ring-0' value={location} onChange={e => setLocation(e.target.value)}/>
       </div>
-      {/* <div>
-        {isLoading ? <Loader /> 
-          : isError ? <ErrorMessage message={errorMessage}/> 
-          : forecastData ? <Forecast data={forecastData}/> 
-          : 'something'}
-       
-      </div> */}
+      <div className='mb-8'>
+      <button onClick={() => setForecastQuantity('1day')} className={`w-32 h-16 bg-white rounded-l-lg border-r-2 border-slate-800 ${forecastQuantity === "1day" ? "bg-slate-800 text-white" : ""}`}>Daily Forecast</button>
+      <button onClick={() => setForecastQuantity('5day')} className={`w-32 h-16 bg-white rounded-r-lg ${forecastQuantity === "5day" ? "bg-slate-800 text-white" : ""}`}>5 Day Forecast</button>
+      </div>
       <Suspense fallback={<h2>Loading...</h2>}>
         {isError ? <ErrorMessage message={errorMessage}/> : forecastData ? <Forecast data={forecastData} location={deferredLocation}/> : 'something'}
       </Suspense>
