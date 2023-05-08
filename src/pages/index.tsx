@@ -1,9 +1,7 @@
 import { Inter } from 'next/font/google'
 import { useDeferredValue, useEffect, useState, Suspense } from 'react';
-import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
 import Forecast from '@/components/Forecast';
-import { dummyData } from '../../dummyData';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -84,7 +82,8 @@ useEffect(() => {
       </div>
       <Suspense fallback={<h2>Loading...</h2>}>
         {isError ? <ErrorMessage message={errorMessage}/> 
-        : forecastData ? <Forecast data={forecastData} location={deferredLocation}/> : 'something'}
+        : forecastData ? <Forecast data={forecastData} location={deferredLocation}/> 
+        : <h2>Something has gone wrong here...</h2>}
       </Suspense>
     </main>
   )
