@@ -1,11 +1,20 @@
-const Forecast = ({data}) => {
+import {DateTime} from 'luxon'
+
+const Forecast = ({data, location}) => {
 
     function convertToCelc(temp: number):number {
         return Math.floor((temp - 32) * (5/9))
     }
 
+    function convertDate(date:number): string {
+        return DateTime.fromSeconds(date).toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY)
+    }
+
+
     return (
         <div className="text-slate-800 bg-white rounded-lg p-8 font-thin">
+            <h2 className="text-center font-bold text-xl">{location ? location : 'London'}</h2>
+            <h3 className="text-center font-thin mb-4">{convertDate(+data.DailyForecasts[0].EpochDate)}</h3>
             <h3 className="italic mb-8">"{data.Headline.Text}"</h3>
             <div className="flex">
                 <div className="flex justify-around w-full h-20 items-center">
