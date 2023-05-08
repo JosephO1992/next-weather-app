@@ -77,8 +77,8 @@ useEffect(() => {
         <input type="text" className='bg-white rounded-lg h-12 px-4 focus-visible:ring-0 ring-0' value={location} onChange={e => setLocation(e.target.value)}/>
       </div>
       <div className='mb-8'>
-      <button onClick={() => setForecastQuantity('1day')} className={`w-32 h-16 bg-white rounded-l-lg border-r-2 border-slate-800 ${forecastQuantity === "1day" ? "bg-slate-800 text-white" : ""}`}>Daily Forecast</button>
-      <button onClick={() => setForecastQuantity('5day')} className={`w-32 h-16 bg-white rounded-r-lg ${forecastQuantity === "5day" ? "bg-slate-800 text-white" : ""}`}>5 Day Forecast</button>
+      <button onClick={() => setForecastQuantity('1day')} className={`w-32 h-16 rounded-l-lg border-r-2 border-slate-800 ${forecastQuantity === "1day" ? "bg-slate-800 text-white" : "bg-white text-slate-800"}`}>Daily Forecast</button>
+      <button onClick={() => setForecastQuantity('5day')} className={`w-32 h-16 rounded-r-lg ${forecastQuantity === "5day" ? "bg-slate-800 text-white" : "bg-white text-slate-800"}`}>5 Day Forecast</button>
       </div>
       <Suspense fallback={<h2>Loading...</h2>}>
         {isError ? <ErrorMessage message={errorMessage}/> 
