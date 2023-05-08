@@ -70,15 +70,15 @@ useEffect(() => {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 bg-sky-500 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between lg:p-24 md:p-16 p-4 bg-sky-500 ${inter.className}`}
     >
-      <div className='w-1/3 flex flex-col justify-center mb-8'>
-        <h1 className='text-3xl text-white font-bold uppercase text-center h-20 mb-8'>Weather.app</h1>
+      <div className='w-full md:w-2/3 lg:w-1/2 flex flex-col justify-center mb-8'>
+        <h1 className='text-3xl text-white w-full font-bold uppercase text-center h-20 mb-8'>Weather.app</h1>
         <input type="text" className='bg-white rounded-lg h-12 px-4 focus-visible:ring-0 ring-0' value={location} onChange={e => setLocation(e.target.value)}/>
       </div>
       <div className='mb-8'>
-      <button onClick={() => setForecastQuantity('1day')} className={`w-32 h-16 rounded-l-lg border-r-2 border-slate-800 ${forecastQuantity === "1day" ? "bg-slate-800 text-white" : "bg-white text-slate-800"}`}>Daily Forecast</button>
-      <button onClick={() => setForecastQuantity('5day')} className={`w-32 h-16 rounded-r-lg ${forecastQuantity === "5day" ? "bg-slate-800 text-white" : "bg-white text-slate-800"}`}>5 Day Forecast</button>
+      <button onClick={() => setForecastQuantity('1day')} className={`w-20 md:w-32 h-16 rounded-l-lg border-r-2 border-slate-800 ${forecastQuantity === "1day" ? "bg-slate-800 text-white" : "bg-white text-slate-800"}`}>Daily Forecast</button>
+      <button onClick={() => setForecastQuantity('5day')} className={`w-20 md:w-32 h-16 rounded-r-lg ${forecastQuantity === "5day" ? "bg-slate-800 text-white" : "bg-white text-slate-800"}`}>5 Day Forecast</button>
       </div>
       <Suspense fallback={<h2>Loading...</h2>}>
         {isError ? <ErrorMessage message={errorMessage}/> 

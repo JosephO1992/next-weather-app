@@ -13,7 +13,7 @@ const Forecast = ({data, location}) => {
     const {Headline, DailyForecasts} = data;
 
     return (
-        <div>
+        <div className='w-full md:w-2/3 lg:w-1/2'>
             <h3 className="italic mb-8 bg-white text-slate-800 p-4 rounded-lg" data-testid="headline">"{Headline.Text}"</h3>
             {DailyForecasts.map((forecast) => (
                 <div className="text-slate-800 bg-white rounded-lg p-8 font-thin mb-8" key={forecast.Date} data-testid={forecast.Date}>
